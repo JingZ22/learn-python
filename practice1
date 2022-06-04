@@ -1,4 +1,35 @@
 
+import ibm_db
+
+dsn_driver = "{IBM DB2 ODBC DRIVER}"
+dsn_database = "bludb"            # e.g. "BLUDB"
+dsn_hostname = "xxx" # e.g.: "54a2f15b-5c0f-46df-8954-7e38e612c2bd.c1ogj3sd0tgtu0lqde00.databases.appdomain.cloud"
+dsn_port = "30426"                # e.g. "32733" 
+dsn_protocol = "TCPIP"            # i.e. "TCPIP"
+dsn_uid = "xxx"        # e.g. "abc12345"
+dsn_pwd = "xxx"      # e.g. "7dBZ3wWt9XN6$o0J"
+dsn_security = "SSL"              #i.e. "SSL"
+
+#Create database connection
+dsn = (
+    "DRIVER={0};"
+    "DATABASE={1};"
+    "HOSTNAME={2};"
+    "PORT={3};"
+    "PROTOCOL={4};"
+    "UID={5};"
+    "PWD={6};"
+    "SECURITY={7};").format(dsn_driver, dsn_database, dsn_hostname, dsn_port, dsn_protocol, dsn_uid, dsn_pwd,dsn_security)
+
+try:
+    conn = ibm_db.connect(dsn, "", "")
+    print ("Connected to database: ", dsn_database, "as user: ", dsn_uid, "on host: ", dsn_hostname)
+
+except:
+    print ("Unable to connect: ", ibm_db.conn_errormsg() )
+
+
+
 import pandas
 import ibm_db_dbi
 import matplotlib.pyplot as plt
