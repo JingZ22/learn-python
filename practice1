@@ -1,1 +1,26 @@
 
+import pandas
+import ibm_db_dbi
+import matplotlib.pyplot as plt
+
+#connection for pandas
+pconn = ibm_db_dbi.Connection(conn)
+
+selectQuery = "select m.membername, sum(amount) as amount from membertransaction t inner join member m on t.memberid = m.memberid group by m.membername"
+
+#retrieve the query results into a pandas dataframe
+pdf = pandas.read_sql(selectQuery, pconn)
+
+labels = pdf['MEMBERNAME']
+
+colors = ['orange', 'yellow', 'green']
+
+sizes = pdf['AMOUNT']
+
+plt.pie(sizes, labels=labels, colors=colors, startangle=90, explode=(0.1, 0.1, 0.1), autopct='%1.2f%%')
+
+plt.title('MEMBER SPEND')
+
+plt.axis('equal')
+
+plt.show()
